@@ -1,6 +1,8 @@
 package com.example.impresionproyecto.data;
 
-public class Factura {
+import java.io.Serializable;
+
+public class Factura implements Serializable{
     private String destino, horainicio, horacierre;
     private long id, idempleadoinicio, idempleadocierre;
     private float total;

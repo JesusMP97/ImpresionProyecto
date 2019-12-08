@@ -24,11 +24,13 @@ import android.widget.Toast;
 
 import com.example.impresionproyecto.data.Comanda;
 import com.example.impresionproyecto.data.Contenedor;
+import com.example.impresionproyecto.data.Factura;
 import com.example.impresionproyecto.data.Producto;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     Button btPrint, btEnviar, btHistorial;
     List<Comanda> comandas;
     List<Producto> productos;
+    List<Factura> facturas;
     private String NIF = "10511415N";
     private String NOMBRE = "Jones Garcia, Francisco";
     private String DIRECCION = "C/ Alameda, 8   Granada";
@@ -164,9 +167,33 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void testFacturas() {
+        facturas = new ArrayList<>();
+        facturas.add(new Factura("3", "12:00 12-3-2019", "12:30 12-3-2019", 1, 1, 1, 3.50f));
+        facturas.add(new Factura("4", "12:00 14-2-2019", "12:30 12-3-2019", 2, 1, 1, 5.50f));
+        facturas.add(new Factura("2", "12:00 9-5-2019", "12:30 12-3-2019", 3, 1, 1, 6.50f));
+        facturas.add(new Factura("2", "12:00 8-12-2019", "12:30 8-12-2019", 3, 1, 1, 7.50f));
+        facturas.add(new Factura("2", "12:00 8-12-2019", "12:30 8-12-2019", 3, 1, 1, 6.50f));
+        facturas.add(new Factura("2", "12:00 9-12-2019", "12:30 12-3-2019", 3, 1, 1, 6.50f));
+        facturas.add(new Factura("2", "12:00 10-12-2019", "12:30 12-3-2019", 3, 1, 1, 7.50f));
+    }
+
+    private List<Factura> filterFacturas(String date){
+        testFacturas();
+        List<Factura> filtered = new ArrayList<>();
+        for (int i = 0; i < facturas.size(); i++) {
+            if (facturas.get(i).getHorainicio().contains(date)){
+                filtered.add(facturas.get(i));
+            }
+        }
+        return filtered;
+    }
+
     private void sendToHistory(String date) {
         Intent intent = new Intent(this, History.class);
-        intent.putExtra("date", date);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("facturas", (Serializable) filterFacturas(date));
+        intent.putExtras(bundle);
         startActivity(intent);
     }
 

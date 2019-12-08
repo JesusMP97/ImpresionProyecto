@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.impresionproyecto.data.Factura;
@@ -29,16 +30,16 @@ public class History extends AppCompatActivity {
     private void initComponents() {
         rvItems = findViewById(R.id.rvHistory);
         date = getIntent().getStringExtra("date");
-        testFacturas();
+        getBundle();
         initRecyclerView();
     }
 
-    private void testFacturas() {
-        facturas = new ArrayList<>();
-        facturas.add(new Factura("3", "12:00 12/3/2019", "12:30 12/3/2019", 1, 1, 1, 3.50f));
-        facturas.add(new Factura("4", "12:00 12/3/2019", "12:30 12/3/2019", 2, 1, 1, 5.50f));
-        facturas.add(new Factura("2", "12:00 12/3/2019", "12:30 12/3/2019", 3, 1, 1, 6.50f));
+    private void getBundle() {
+        Intent intent = this.getIntent();
+        Bundle bundle = intent.getExtras();
+        facturas = (List<Factura>)bundle.getSerializable("facturas");
     }
+
 
     private void initRecyclerView() {
         LinearLayoutManager lim = new LinearLayoutManager(this);
