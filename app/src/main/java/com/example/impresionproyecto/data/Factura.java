@@ -6,6 +6,16 @@ public class Factura {
     private float total;
     private boolean selected;
 
+    public Factura(String destino, String horainicio, String horacierre, long id, long idempleadoinicio, long idempleadocierre, float total) {
+        this.destino = destino;
+        this.horainicio = horainicio;
+        this.horacierre = horacierre;
+        this.id = id;
+        this.idempleadoinicio = idempleadoinicio;
+        this.idempleadocierre = idempleadocierre;
+        this.total = total;
+        this.selected = false;
+    }
 
     public String getDestino() {
         return destino;

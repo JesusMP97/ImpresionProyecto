@@ -3,6 +3,7 @@ package com.example.impresionproyecto;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
@@ -18,6 +19,7 @@ import android.print.PrintManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.Toast;
 
 import com.example.impresionproyecto.data.Comanda;
@@ -34,7 +36,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btPrint, btEnviar;
+    Button btPrint, btEnviar, btHistorial;
     List<Comanda> comandas;
     List<Producto> productos;
     private String NIF = "10511415N";
@@ -153,11 +155,37 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        btHistorial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog();
+            }
+        });
+    }
+
+    private void sendToHistory(String date) {
+        Intent intent = new Intent(this, History.class);
+        intent.putExtra("date", date);
+        startActivity(intent);
+    }
+
+    private void showDatePickerDialog() { // Enviar al historial seleccionando fecha + clase DatePickerFragment
+        DatePickerFragment newFragment = DatePickerFragment.newInstance(new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                final String selectedDate = day + "-" + (month+1) + "-" + year;
+                sendToHistory(selectedDate);
+            }
+        });
+
+        newFragment.show(this.getSupportFragmentManager(), "datePicker");
     }
 
     private void initComponents() {
         btPrint = findViewById(R.id.btPrint);
         btEnviar = findViewById(R.id.btEnviar);
+        btHistorial = findViewById(R.id.btDatePicker);
 
         comandas = new ArrayList<>();
         productos = new ArrayList<>();
